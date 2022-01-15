@@ -147,3 +147,9 @@ input:checked + .slider:before {
     font-size: 13px;
     padding: 3px;
 }
+
+.smaller {
+    font-size: 13px;
+    display: inline;
+    margin-left: 12.4vh;
+}

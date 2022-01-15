@@ -34,14 +34,32 @@ function createCard(div, object) {
     label.className = "switch";
     input.type = "checkbox";
     span.className = "slider round";
-    switchText.className = "small";
 
-    switchText.textContent = `Mark as read:`;
     title.textContent = `"${object.title}"`;
     author.textContent = `by ${object.author}`;
     pages.textContent = `${object.pages} pages`;
     close.textContent = `x`;
-    
+
+    input.addEventListener("click", () => {
+        if(object.read === false) {
+            object.read = true;
+            read.textContent = "finished";
+        } else if(object.read === true) {
+            object.read = false;
+            read.textContent = "not finished";
+        } else {
+            console.log("Ooops! Something went wrong!");
+        }
+    })
+
+    if(object.read === true) {
+        switchText.textContent = `Mark as unread:`;
+        switchText.className = "smaller";
+    } else {
+        switchText.textContent = `Mark as read:`;
+        switchText.className = "small";
+    }
+
     if(object.read === false) {
         read.textContent = "not finished";
     } else {
