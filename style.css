@@ -25,19 +25,27 @@ body {
 .content {
     min-height: calc(100vh - 10.26rem);
     display: flex;
-    flex-direction: row;
+    flex-flow: wrap;
+}
+
+.content > div {
+    margin-top: 0;
 }
 
 .left-sidebar {
-    width: 80%;
+    width: 75%;
     display: flex;
-    margin: 7px 20px;
+    flex-wrap: wrap;
+    margin: 1vh 10vh;
+    margin-right: 2vh;
+    gap: 5vh;
+    row-gap: -100px;
 }
 
 .right-sidebar {
-    width: 20%;
+    width: 25%;
     display: flex;
-    margin: 7px;
+    margin: 1vh;
 }
 
 .footer {
@@ -46,4 +54,96 @@ body {
     border-top: 2px solid black;
     background-color: rgb(5, 18, 92);
     text-align: center;
+}
+
+.card {
+    margin-top: 25px;
+    height: 170px;
+    width: 270px;
+    background-color: rgb(216, 211, 211);
+    color: black; 
+    border-radius: 5px;
+    box-shadow: 0 0 2px 4px rgb(235, 148, 48);
+}
+
+.card p {
+    text-align: center;
+    margin-top: -9px;
+    padding: 2px;
+}
+
+.close {
+    cursor: pointer;
+    position: relative;
+    left: 95%;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    margin-top: -1px;
+    width: 40px;
+    height: 23px;
+    border: 1px solid white;
+    border-radius: 35px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    
+    content: "";
+    height: 15px;
+    width: 15px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+input:checked + .slider {
+    background-color: #2196F3;
+}
+  
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(18px);
+    -ms-transform: translateX(18px);
+    transform: translateX(18px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.small {
+    margin-left: 14vh;
+    display: inline;
+    font-size: 13px;
+    padding: 3px;
 }
