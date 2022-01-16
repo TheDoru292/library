@@ -6,6 +6,19 @@ const book5 = new Book("test4", "test2", 123, true);
 
 let myLibrary = [book1, book2, book3, book4, book5];
 
+const leftSidebar = document.querySelector(".left-sidebar");
+const rightSidebar = document.querySelector(".right-sidebar");
+const header = document.querySelector(".header");
+const addButton = document.querySelector(".addBookButton");
+const content = document.querySelector(".content");
+const footer = document.querySelector(".footer");
+const modal = document.createElement("div");
+const modalContent = document.createElement("div");
+const modalClose = document.createElement("span");
+const modalText = document.createElement("p");
+
+let clickedOnce = false;
+
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
@@ -14,7 +27,17 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary() {
+    modalContent.className = "modal-content";
+    modal.className = "modal";
 
+    modalText.textContent = "test";
+    modalClose.className = "modalclose";
+    modalClose.textContent = "x";
+    
+    modalContent.append(modalClose, modalText);
+    modal.append(modalContent);
+
+    content.append(modal);
 }
 
 function removeFromArray(object) {
@@ -36,7 +59,6 @@ function removeCard(path, object, ...htmlObjects) {
     }
 }
 
-const leftSidebar = document.querySelector(".left-sidebar");
 
 function createCard(div, object) {
     const title = document.createElement("p");
@@ -100,5 +122,23 @@ function readLibrary() {
         createCard(book, bookObject);    
     }
 }
+
+addButton.addEventListener("click", () => {
+    if(clickedOnce === false) {
+        modal.style.display = "block";
+        addBookToLibrary();
+        clickedOnce = true;
+    } else {
+        
+    }
+})
+
+window.addEventListener("click", (e) => {
+    if(e.target == modal) {
+        modal.remove(modalContent);
+        modalContent.remove(modalText, modalClose);
+        clickedOnce = false;
+    }
+})
 
 readLibrary();
