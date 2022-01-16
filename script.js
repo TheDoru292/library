@@ -1,8 +1,8 @@
 const book1 = new Book("test", "test", 123, false);
 const book2 = new Book("test1", "test2", 123, true);
-const book3 = new Book("test1", "test2", 123, true);
-const book4 = new Book("test1", "test2", 123, true);
-const book5 = new Book("test1", "test2", 123, true);
+const book3 = new Book("test2", "test2", 123, true);
+const book4 = new Book("test3", "test2", 123, true);
+const book5 = new Book("test4", "test2", 123, true);
 
 let myLibrary = [book1, book2, book3, book4, book5];
 
@@ -50,20 +50,32 @@ function createCard(div, object) {
         } else {
             console.log("Ooops! Something went wrong!");
         }
-    })
+    });
 
-    if(object.read === true) {
-        switchText.textContent = `Mark as unread:`;
-        switchText.className = "smaller";
-    } else {
-        switchText.textContent = `Mark as read:`;
-        switchText.className = "small";
-    }
-
+    close.addEventListener("click", (e) => {
+        let composed = e.composedPath();
+        for(let i = 0; i < composed.length; i++) {
+            if(composed[i].dataset['bookname'] === object.title) {
+                const card = document.querySelector(`[data-bookname='${object.title}']`);
+                card.remove(close, title, author, pages, read, switchText, label);
+                for(let i = 0; myLibrary.length > i; i++) {
+                    const bookObject = myLibrary[i];
+                    if(bookObject.title === object.title) {
+                        myLibrary.splice(myLibrary.indexOf(myLibrary[i]), 1);
+                    }
+                }
+            }
+        }
+    });
+ 
     if(object.read === false) {
         read.textContent = "not finished";
+        switchText.textContent = `Mark as read:`;
+        switchText.className = "small";
     } else {
         read.textContent = "finished";
+        switchText.textContent = `Mark as unread`;
+        switchText.className = "smaller"
     }
 
     label.append(input, span);
