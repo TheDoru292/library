@@ -196,7 +196,7 @@ input:checked + .slider:before {
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%;
+    width: 30%;
 }
 
 .modal-content p {
@@ -215,4 +215,28 @@ input:checked + .slider:before {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+.modaltitle {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.modal-content-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content-form input {
+    align-self: center;
+    width: 100px;
+}
+
+.modal-content-form p {
+    align-self: center;
+}
+
+.modal-button {
+    margin-top: 10px;   
 }

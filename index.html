@@ -16,6 +16,23 @@
             <div class="right-sidebar">
                 <button class="addBookButton">Add Book</button>
             </div>
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="modalclose">&times;</span>
+                    <p class="modaltitle">Add a box</p>
+                    <form class="modal-content-form">
+                        <p>Book's title</p>
+                        <input class="addBookTitle" required>
+                        <p>Book's Author</p>
+                        <input class="addBookAuthor" required>
+                        <p>Book's pages</p>
+                        <input class="addBookPages" type="number" min="1" required>
+                        <p>Did you read the book?</p>
+                        <input class="addBookRead" type="checkbox">
+                        <input class="modal-button" type="submit" value=Submit>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="footer">
             <p>Copyright © 2022 TheDoru292</p>

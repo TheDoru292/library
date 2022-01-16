@@ -1,10 +1,4 @@
-const book1 = new Book("test", "test", 123, false);
-const book2 = new Book("test1", "test2", 123, true);
-const book3 = new Book("test2", "test2", 123, true);
-const book4 = new Book("test3", "test2", 123, true);
-const book5 = new Book("test4", "test2", 123, true);
-
-let myLibrary = [book1, book2, book3, book4, book5];
+let myLibrary = [];
 
 const leftSidebar = document.querySelector(".left-sidebar");
 const rightSidebar = document.querySelector(".right-sidebar");
@@ -12,12 +6,17 @@ const header = document.querySelector(".header");
 const addButton = document.querySelector(".addBookButton");
 const content = document.querySelector(".content");
 const footer = document.querySelector(".footer");
-const modal = document.createElement("div");
-const modalContent = document.createElement("div");
-const modalClose = document.createElement("span");
-const modalText = document.createElement("p");
 
-let clickedOnce = false;
+const modal = document.querySelector(".modal");
+const modalClose = document.querySelector(".modalclose");
+const modalSubmit = document.querySelector(".modal-button");
+const modalContentForm = document.querySelector("form");
+const modalBookTitle = document.querySelector(".addBookTitle");
+const modalBookAuthor = document.querySelector(".addBookAuthor");
+const modalBookPages = document.querySelector(".addBookPages");
+const modalBookRead = document.querySelector(".addBookRead");
+
+let ranOnce = false;
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -27,17 +26,16 @@ function Book(title, author, pages, read) {
 }
 
 function addBookToLibrary() {
-    modalContent.className = "modal-content";
-    modal.className = "modal";
+    const titleValue = modalBookTitle.value;
+    const authorValue = modalBookAuthor.value;
+    const pagesValue = modalBookPages.value;
+    const readValue = modalBookRead.checked;
 
-    modalText.textContent = "test";
-    modalClose.className = "modalclose";
-    modalClose.textContent = "x";
-    
-    modalContent.append(modalClose, modalText);
-    modal.append(modalContent);
+    const myLibraryIndex = myLibrary.length;
 
-    content.append(modal);
+    myLibrary[`${myLibraryIndex}`] = new Book(titleValue, authorValue, pagesValue, readValue);
+
+    readLibrary();
 }
 
 function removeFromArray(object) {
@@ -110,13 +108,24 @@ function createCard(div, object) {
 
     label.append(input, span);
     div.append(close, title, author, pages, read, switchText, label);
+    ranOnce = true;
+}
+
+function deleteCard() {
+    const card = document.querySelectorAll(".card");
+    card.forEach(cards => {
+        cards.remove(cards);
+    })
 }
 
 function readLibrary() {
+    if(ranOnce === true) {
+        deleteCard();
+    }
     for(let i = 0; myLibrary.length > i; i++) {
         const book = document.createElement("div");
-        book.className = "card";
         const bookObject = myLibrary[i];
+        book.className = "card";
         book.dataset.bookname = bookObject.title;
         leftSidebar.append(book);
         createCard(book, bookObject);    
@@ -124,21 +133,30 @@ function readLibrary() {
 }
 
 addButton.addEventListener("click", () => {
-    if(clickedOnce === false) {
-        modal.style.display = "block";
-        addBookToLibrary();
-        clickedOnce = true;
-    } else {
-        
-    }
+    modal.style.display = "block";
+
 })
 
 window.addEventListener("click", (e) => {
     if(e.target == modal) {
-        modal.remove(modalContent);
-        modalContent.remove(modalText, modalClose);
-        clickedOnce = false;
+        modal.style.display = "none";
     }
 })
 
-readLibrary();
+modalClose.addEventListener("click", () => {
+    modal.style.display = "none";
+})
+
+// modalContentForm.addEventListener("submit", (e) => {
+//     e.preventDefault();
+//     e.reset()
+//     addBookToLibrary();
+//     modal.style.display = "none";
+// })
+
+modalSubmit.addEventListener("click", (e) => {
+    e.preventDefault();
+    addBookToLibrary();
+    modalContentForm.reset();
+    modal.style.display = "none";
+})
