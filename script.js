@@ -128,7 +128,7 @@ function readLibrary() {
         book.className = "card";
         book.dataset.bookname = bookObject.title;
         leftSidebar.append(book);
-        createCard(book, bookObject);    
+        createCard(book, bookObject);
     }
 }
 
@@ -146,13 +146,6 @@ window.addEventListener("click", (e) => {
 modalClose.addEventListener("click", () => {
     modal.style.display = "none";
 })
-
-// modalContentForm.addEventListener("submit", (e) => {
-//     e.preventDefault();
-//     e.reset()
-//     addBookToLibrary();
-//     modal.style.display = "none";
-// })
 
 modalSubmit.addEventListener("click", (e) => {
     e.preventDefault();
