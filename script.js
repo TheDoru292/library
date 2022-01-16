@@ -17,6 +17,25 @@ function addBookToLibrary() {
 
 }
 
+function removeFromArray(object) {
+    for(let i = 0; myLibrary.length > i; i++) {
+        const bookObject = myLibrary[i];
+        if(bookObject.title === object.title) {
+            myLibrary.splice(myLibrary.indexOf(myLibrary[i]), 1);
+        }
+    }
+}
+
+function removeCard(path, object, ...htmlObjects) {
+    for(let i = 0; i < path.length; i++) {
+        if(path[i].dataset['bookname'] === object.title) {
+            const card = document.querySelector(`[data-bookname='${object.title}']`);
+            card.remove(htmlObjects);
+            removeFromArray(object);
+        }
+    }
+}
+
 const leftSidebar = document.querySelector(".left-sidebar");
 
 function createCard(div, object) {
@@ -54,18 +73,7 @@ function createCard(div, object) {
 
     close.addEventListener("click", (e) => {
         let composed = e.composedPath();
-        for(let i = 0; i < composed.length; i++) {
-            if(composed[i].dataset['bookname'] === object.title) {
-                const card = document.querySelector(`[data-bookname='${object.title}']`);
-                card.remove(close, title, author, pages, read, switchText, label);
-                for(let i = 0; myLibrary.length > i; i++) {
-                    const bookObject = myLibrary[i];
-                    if(bookObject.title === object.title) {
-                        myLibrary.splice(myLibrary.indexOf(myLibrary[i]), 1);
-                    }
-                }
-            }
-        }
+        removeCard(composed, object, close, title, author, pages, read, switchText, label);
     });
  
     if(object.read === false) {
