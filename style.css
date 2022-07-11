@@ -1,181 +1,70 @@
-body {
-    display: flex;
-    flex-direction: column;
+* {
+    padding: 0;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(29, 28, 102);
-    color: white;
 }
 
-.header, .footer {
+p, h1,
+table, button,
+label {
+    font-family: 'Indie Flower';
+}
+
+p, table {
+    font-size: 22px;
+}
+
+p, button {
+    font-weight: bold;
+}
+
+table {
+    border-spacing: 1px;
+}
+
+td, th {
+    padding: 10px;
+    border: .1px solid black;
+}
+
+button {
+    font-size: 18px;
+    padding: 5px;
+}
+
+.edit, .delete {
+    display: none;
+    justify-self: end;
+    align-self: center;
+    cursor: pointer;
+    font-size: 18px
+}
+
+.main {
     width: 100%;
-}
-
-.title {
-    margin-bottom: 18px;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    background-color: rgb(255, 221, 109);
 }
 
 .header {
-    height: 7rem;
-    border-bottom: 2px solid black;
-    background-color: rgb(5, 18, 92);
-    text-align: center;
+    display: grid;
+    min-height: 60px;
+    justify-self: center;
+    align-items: center;
 }
 
 .content {
-    min-height: calc(100vh - 10.26rem);
+    margin: 0 auto;
+}
+
+.buttons {
     display: flex;
-    flex-flow: wrap;
-}
-
-.content > div {
-    margin-top: 0;
-}
-
-.left-sidebar {
-    width: 75%;
-    display: flex;
-    flex-wrap: wrap;
-    margin: 1vh 10vh;
-    margin-right: 2vh;
-    gap: 5vh;
-    row-gap: -100px;
-}
-
-.right-sidebar {
     flex-direction: column;
-    display: flex;
-    margin: 1vh;
-}
-
-.footer {
-    height: 3rem;
-    bottom: 0;
-    border-top: 2px solid black;
-    background-color: rgb(5, 18, 92);
-    text-align: center;
-}
-
-.card {
-    margin-top: 25px;
-    height: 170px;
-    width: 270px;
-    background-color: rgb(216, 211, 211);
-    color: black; 
-    border-radius: 5px;
-    box-shadow: 0 0 2px 4px rgb(235, 148, 48);
-}
-
-.card p {
-    text-align: center;
-    margin-top: -9px;
-    padding: 2px;
-}
-
-.close {
-    cursor: pointer;
-    position: relative;
-    left: 95%;
-}
-
-.switch {
-    position: relative;
-    display: inline-block;
-    margin-top: -1px;
-    width: 40px;
-    height: 23px;
-    border: 1px solid white;
-    border-radius: 35px;
-}
-
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-  
-.slider:before {
-    position: absolute;
-    
-    content: "";
-    height: 15px;
-    width: 15px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-}
-  
-input:checked + .slider {
-    background-color: #2196F3;
-}
-  
-input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-}
-  
-input:checked + .slider:before {
-    -webkit-transform: translateX(18px);
-    -ms-transform: translateX(18px);
-    transform: translateX(18px);
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
-.small {
-    margin-left: 14vh;
-    display: inline;
-    font-size: 13px;
-    padding: 3px;
-}
-
-.smaller {
-    font-size: 13px;
-    display: inline;
-    margin-left: 12.4vh;
-}
-
-.addBookButton {
-    height: 45px;
-    margin-top: 20px;
-}
-
-.addBookContainer {
-    display: flex;
-    position: fixed;
-    width: 100%;
-    height: 500px;
     justify-content: center;
-    align-self: center;
-}
-
-.addBook {
-    background-color: #fff;
-    width: 500px;
-}
-
-.blur {
-    -webkit-filter: blur(5px);
-    filter: blur(5px);
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .modal {
@@ -187,56 +76,80 @@ input:checked + .slider:before {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgb(0, 0, 0,0.4);
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
 }
 
-.modal-content {
+.modal-container {
+    width: 50%;
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 13% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 30%;
 }
 
-.modal-content p {
-    color: black;
+.modal-container > form > span {
+    display: list-item;
+    list-style-type: none;
+    margin-bottom: 20px;
 }
 
-.modalclose {
+.modal-container > form > span > label {
+    display: inline-block;
+    font-size: 22px;
+    width: 150px;
+    text-align: left;
+}
+
+.modal-container > form > span > input[type=text] {
+    width: 300px;
+    height: 22px;
+}
+
+.modal-container > form > span > input[type=number] {
+    height: 22px;
+}
+
+.close {
+    margin-top: -10px;
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.modalclose:hover,
-.modalclose:focus {
-    color: black;
+.close:hover,
+.close:focus {
+    color: #000;
     text-decoration: none;
     cursor: pointer;
 }
 
-.modaltitle {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
+.table-book-title {
+    display: grid;
+    grid-template-columns: 1fr 40px 60px;
 }
 
-.modal-content-form {
-    display: flex;
-    flex-direction: column;
+.table-title {
+    /* max-height: 50px; */
+    width: clamp(200px, 560px, 800px);
 }
 
-.modal-content-form input {
-    align-self: center;
-    width: 100px;
+.table-author {
+    width: clamp(100px, 180px, 300px);
 }
 
-.modal-content-form p {
-    align-self: center;
+.table-pages {
+    width: clamp(50px, 100px, 150px);
 }
 
-.modal-button {
-    margin-top: 10px;   
+.author {
+    width: 150px;
+}
+
+.footer {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    min-height: 60px;
 }

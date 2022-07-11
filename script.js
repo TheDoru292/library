@@ -1,23 +1,5 @@
 let myLibrary = [];
 
-const leftSidebar = document.querySelector(".left-sidebar");
-const rightSidebar = document.querySelector(".right-sidebar");
-const header = document.querySelector(".header");
-const addButton = document.querySelector(".addBookButton");
-const content = document.querySelector(".content");
-const footer = document.querySelector(".footer");
-
-const modal = document.querySelector(".modal");
-const modalClose = document.querySelector(".modalclose");
-const modalSubmit = document.querySelector(".modal-button");
-const modalContentForm = document.querySelector("form");
-const modalBookTitle = document.querySelector(".addBookTitle");
-const modalBookAuthor = document.querySelector(".addBookAuthor");
-const modalBookPages = document.querySelector(".addBookPages");
-const modalBookRead = document.querySelector(".addBookRead");
-
-let ranOnce = false;
-
 function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
@@ -25,131 +7,118 @@ function Book(title, author, pages, read) {
     this.read = read;
 }
 
-function addBookToLibrary() {
-    const titleValue = modalBookTitle.value;
-    const authorValue = modalBookAuthor.value;
-    const pagesValue = modalBookPages.value;
-    const readValue = modalBookRead.checked;
+function addBookToLibrary(title, author, pages, read) {
+    let book = new Book(title, author, pages, read);
 
-    const myLibraryIndex = myLibrary.length;
+    myLibrary.push({title: book.title, author: book.author, pages: book.pages, read: book.read});
 
-    myLibrary[`${myLibraryIndex}`] = new Book(titleValue, authorValue, pagesValue, readValue);
-
-    readLibrary();
+    addTableRow();
 }
 
-function removeFromArray(object) {
-    for(let i = 0; myLibrary.length > i; i++) {
-        const bookObject = myLibrary[i];
-        if(bookObject.title === object.title) {
-            myLibrary.splice(myLibrary.indexOf(myLibrary[i]), 1);
-        }
-    }
-}
+function addTableRow(number) {
+    let arrayIndex = number - 1;
 
-function removeCard(path, object, ...htmlObjects) {
-    for(let i = 0; i < path.length; i++) {
-        if(path[i].dataset['bookname'] === object.title) {
-            const card = document.querySelector(`[data-bookname='${object.title}']`);
-            card.remove(htmlObjects);
-            removeFromArray(object);
-        }
-    }
-}
+    const table = document.querySelector("tbody");
+    const tableRow = document.createElement("tr");
+    tableRow.className = `${arrayIndex}`;
 
+    const tableTitle = document.createElement("td");
+    const tableAuthor = document.createElement("td");
+    const tablePage = document.createElement("td");
+    const tableRead = document.createElement("td");
 
-function createCard(div, object) {
-    const title = document.createElement("p");
-    const author = document.createElement("p");
-    const pages = document.createElement("p");
-    const read = document.createElement("p");
-    const close = document.createElement("span");
-    close.className = "close";
+    const tableEdit = document.createElement("span");
+    const tableDelete = document.createElement("span");
 
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-    const span = document.createElement("span");
-    const switchText = document.createElement("p");
-    label.className = "switch";
-    input.type = "checkbox";
-    span.className = "slider round";
+    tableEdit.className = "edit";
+    tableDelete.className = "delete";
 
-    title.textContent = `"${object.title}"`;
-    author.textContent = `by ${object.author}`;
-    pages.textContent = `${object.pages} pages`;
-    close.textContent = `x`;
+    tableTitle.textContent = myLibrary[arrayIndex].title;
+    tableTitle.className = "table-book-title";
+    tableAuthor.textContent = myLibrary[arrayIndex].author;
+    tablePage.textContent = myLibrary[arrayIndex].pages;
+    tableRead.textContent = (myLibrary[arrayIndex].read === false) ? "No" : "Yes";
+    
+    tableEdit.textContent = "edit";
+    tableDelete.textContent = "delete";
 
-    input.addEventListener("click", () => {
-        if(object.read === false) {
-            object.read = true;
-            read.textContent = "finished";
-        } else if(object.read === true) {
-            object.read = false;
-            read.textContent = "not finished";
+    tableTitle.append(tableEdit, tableDelete);
+    tableRow.append(tableTitle, tableAuthor, tablePage, tableRead);
+    table.append(tableRow);
+
+    tableRow.addEventListener("mouseenter", e => {
+        tableEdit.style.display = "block";
+        tableDelete.style.display = "block";
+    });
+
+    tableRow.addEventListener("mouseleave", e => {
+        tableEdit.style.display = "none";
+        tableDelete.style.display = "none";
+    })
+
+    tableDelete.addEventListener("click", e => {
+        tableTitle.remove(tableEdit, tableDelete);
+        tableRow.remove(tableTitle, tableAuthor, tablePage, tableRead);
+        myLibrary.splice(arrayIndex, 1);
+    });
+
+    tableEdit.addEventListener("click", e => {
+        if(myLibrary[arrayIndex].read === false) {
+            myLibrary[arrayIndex].read = true;
+            tableRead.textContent = "Yes";
         } else {
-            console.log("Ooops! Something went wrong!");
+            myLibrary[arrayIndex].read = false;
+            tableRead.textContent = "No";
         }
     });
-
-    close.addEventListener("click", (e) => {
-        let composed = e.composedPath();
-        removeCard(composed, object, close, title, author, pages, read, switchText, label);
-    });
- 
-    if(object.read === false) {
-        read.textContent = "not finished";
-        switchText.textContent = `Mark as read:`;
-        switchText.className = "small";
-    } else {
-        read.textContent = "finished";
-        switchText.textContent = `Mark as unread`;
-        switchText.className = "smaller"
-    }
-
-    label.append(input, span);
-    div.append(close, title, author, pages, read, switchText, label);
-    ranOnce = true;
 }
 
-function deleteCard() {
-    const card = document.querySelectorAll(".card");
-    card.forEach(cards => {
-        cards.remove(cards);
+function modalEvents(item, button, close) {
+    button.onclick = function() {
+        item.style.display = "block";
+    }
+
+    close.onclick = function() {
+        item.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if(event.target == item) {
+            item.style.display = "none";
+        }
+    }
+}
+
+function addFormEvent() {
+    const form = document.querySelector(".form");
+
+    form.addEventListener("submit", (e) => {
+        const bookTitle = document.querySelector("#title");
+        const bookAuthor = document.querySelector("#author");
+        const pages = document.querySelector("#pages");
+        const read = document.querySelector("#read");
+        const modal = document.querySelector(".modal");
+
+        e.preventDefault();
+
+        addBookToLibrary(bookTitle.value, bookAuthor.value, pages.value, read.checked);
+
+        modal.style.display = "none";
+
+        bookTitle.value = "";
+        bookAuthor.value = "";
+        pages.value = "";
+        read.value = false;
     })
 }
 
-function readLibrary() {
-    if(ranOnce === true) {
-        deleteCard();
-    }
-    for(let i = 0; myLibrary.length > i; i++) {
-        const book = document.createElement("div");
-        const bookObject = myLibrary[i];
-        book.className = "card";
-        book.dataset.bookname = bookObject.title;
-        leftSidebar.append(book);
-        createCard(book, bookObject);
-    }
+function onRun(){
+    const modal = document.querySelector(".modal");
+    const modalBtn = document.querySelector(".modal-button");
+    const span = document.querySelector(".close");
+
+    modalEvents(modal, modalBtn, span);
+    addFormEvent();
 }
 
-addButton.addEventListener("click", () => {
-    modal.style.display = "block";
-
-})
-
-window.addEventListener("click", (e) => {
-    if(e.target == modal) {
-        modal.style.display = "none";
-    }
-})
-
-modalClose.addEventListener("click", () => {
-    modal.style.display = "none";
-})
-
-modalSubmit.addEventListener("click", (e) => {
-    e.preventDefault();
-    addBookToLibrary();
-    modalContentForm.reset();
-    modal.style.display = "none";
-})
+onRun();

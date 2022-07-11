@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>Library</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Indie+Flower">
+</head>
+<body>
+    <div class="main">
         <div class="header">
-            <h1 class="title">Library</h1>
-            <p class="subtext">Keeping track of all your book needs!</p>
+            <h1 class="page-title">The Library</h1>
         </div>
         <div class="content">
-            <div class="left-sidebar">
-            </div>
-            <div class="right-sidebar">
-                <button class="addBookButton">Add Book</button>
-            </div>
-            <div class="modal">
-                <div class="modal-content">
-                    <span class="modalclose">&times;</span>
-                    <p class="modaltitle">Add a box</p>
-                    <form class="modal-content-form">
-                        <p>Book's title</p>
-                        <input class="addBookTitle" required>
-                        <p>Book's Author</p>
-                        <input class="addBookAuthor" required>
-                        <p>Book's pages</p>
-                        <input class="addBookPages" type="number" min="1" required>
-                        <p>Did you read the book?</p>
-                        <input class="addBookRead" type="checkbox">
-                        <input class="modal-button" type="submit" value=Submit>
-                    </form>
+            <div class="buttons">
+                <button class="modal-button">Add a Book</button>
+                <div class="modal">
+                    <div class="modal-container">
+                        <span class="close">&times;</span>
+                        <form class="form">
+                            <span>
+                                <label for="title">Book Title:</label>
+                                <input type="text" name="title" id="title" required>
+                            </span>
+                            <span>
+                                <label for="author">Book Author:</label>
+                                <input type="text" name="author" id="author" required>
+                            </span>
+                            <span>
+                                <label for="pages">Pages:</label>
+                                <input type="number" name="pages" id="pages" min="0" required>
+                            </span>
+                            <span>
+                                <label for="read">Read?</label>
+                                <input type="checkbox" name="read" id="read">
+                            </span>
+                            <button class="form-button" type="submit">Add the book</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <table class="table">
+                <tr data-id="header">
+                    <th class="table-title">Book Title</th>
+                    <th class="table-author">Author</th>
+                    <th class="table-pages">Pages</th>
+                    <th>Read</th>
+                </tr>
+            </table>
         </div>
         <div class="footer">
-            <p>Copyright © 2022 TheDoru292</p>
+            <p>Made by TheDoru</p>
         </div>
-        <script src="script.js" defer></script>
-    </body>
+    </div>
+    <script src="script.js"></script>
+</body>
 </html>
