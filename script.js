@@ -93,24 +93,31 @@ function modalEvents(item, button, close) {
 
 function addFormEvent() {
     const form = document.querySelector(".form");
+    const bookTitle = document.getElementById("title");
+    const bookAuthor = document.getElementById("author");
+    const pages = document.getElementById("pages");
+    const read = document.getElementById("read");
 
     form.addEventListener("submit", (e) => {
-        const bookTitle = document.querySelector("#title");
-        const bookAuthor = document.querySelector("#author");
-        const pages = document.querySelector("#pages");
-        const read = document.querySelector("#read");
         const modal = document.querySelector(".modal");
 
         e.preventDefault();
 
         addBookToLibrary(bookTitle.value, bookAuthor.value, pages.value, read.checked);
-
+    
         modal.style.display = "none";
-
+    
         bookTitle.value = "";
         bookAuthor.value = "";
         pages.value = "";
         read.value = false;
+    });
+
+    pages.addEventListener("input", (e) => {
+        if(pages.validity.rangeUnderflow) {
+            pages.setCustomValidity("The amount of pages must be higher than 1!");
+            pages.reportValidity();
+        }
     })
 }
 
